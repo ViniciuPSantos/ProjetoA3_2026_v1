@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class TelaLogin extends JFrame {
 
@@ -129,7 +130,6 @@ public class TelaLogin extends JFrame {
                 if (tipoUsuario != null) {
                     limparTentativas(email); // Limpa tentativas após login bem-sucedido
                     JOptionPane.showMessageDialog(TelaLogin.this, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                    SessaoUsuario.getInstance().iniciarSessao(SessaoUsuario.getInstance().getUsuarioId(), SessaoUsuario.getInstance().getNomeUsuario(), tipoUsuario, email); // Re-iniciar sessão com tipo correto se necessário
                     TelaLogin.this.dispose();
                     if (tipoUsuario.equals("bazar")) {
                         SwingUtilities.invokeLater(() -> new TelaBazar().setVisible(true));
@@ -214,7 +214,7 @@ public class TelaLogin extends JFrame {
                 if (rs.next()) {
                     String senhaBanco = rs.getString("senha"); // Idealmente, este é um HASH
                     // if (BCrypt.checkpw(senha, senhaBanco)) { // Exemplo com BCrypt
-                    if (senha.equals(senhaBanco)) { // Mantendo sua lógica atual, mas insegura
+                    if (BCrypt.checkpw(senha, senhaBanco)) { // Mantendo sua lógica atual, mas insegura
                         tipo = rs.getString("tipo");
                         int userId = rs.getInt("id");
                         String nomeUsuario = rs.getString("nome");

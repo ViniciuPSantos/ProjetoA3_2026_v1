@@ -1,13 +1,9 @@
 package org.projeto;
 
 
-import org.projeto.DBConnector;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener; // Import explícito
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -15,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement; // Para Statement.RETURN_GENERATED_KEYS (embora não usado aqui para update)
 import java.util.ArrayList;
 import java.util.HashMap; // Para carregar estoque
 import java.util.List;

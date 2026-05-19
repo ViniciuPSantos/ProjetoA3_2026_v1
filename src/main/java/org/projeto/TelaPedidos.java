@@ -1,12 +1,11 @@
 package org.projeto;
 
 
-import org.projeto.DBConnector; // 👈 Adicionado import do seu conector
+import org.projeto.DBConnector;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.sql.Connection;
-// DriverManager não é mais necessário diretamente aqui para obter a conexão
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,11 +14,6 @@ public class TelaPedidos extends JFrame {
 
     private JTable pedidosTable;
     private DefaultTableModel tableModel;
-
-    // 👇 Removidas as constantes de conexão daqui
-    // private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/projetoa3";
-    // private static final String DB_USER = "root";
-    // private static final String DB_PASSWORD = "";
 
     public TelaPedidos() {
         setTitle("Pedidos");
@@ -49,14 +43,13 @@ public class TelaPedidos extends JFrame {
 
     private void carregarPedidosDoBanco() {
         String sql = "SELECT id, usuario_id, data_pedido, status, endereco_entrega, forma_pagamento, total FROM pedidos";
-        DBConnector dbConnector = new DBConnector(); // 👈 Instanciando seu conector
+        DBConnector dbConnector = new DBConnector();
 
-        // O try-with-resources já estava bem estruturado aqui
-        try (Connection conn = dbConnector.conectar(); // 👈 Usando o método conectar()
+        try (Connection conn = dbConnector.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
-            tableModel.setRowCount(0); // Limpa a tabela antes de popular (boa prática se for recarregar)
+            tableModel.setRowCount(0);
 
             while (rs.next()) {
                 int id = rs.getInt("id");

@@ -8,48 +8,84 @@ import java.awt.event.ActionListener;
 public class TelaInicial extends JFrame {
 
     public TelaInicial() {
-        setTitle("Bazar Online - Tela Inicial");
+        setTitle("EcoBazar - Tela Inicial");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(700, 500);
-        setLocationRelativeTo(null); // Centraliza a janela
+        setSize(750, 550);
+        setLocationRelativeTo(null);
 
-        JPanel painelPrincipal = new JPanel();
-        painelPrincipal.setLayout(new BorderLayout());
+        Color fundo = new Color(180, 255, 180, 237);
+
+        JPanel painelPrincipal = new JPanel(new BorderLayout(15,15));
+        painelPrincipal.setBackground(fundo);
+        painelPrincipal.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+
+        //logo
+        ImageIcon logo = new ImageIcon("src/main/resources/logo.png");
+
+        Image img = logo.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+
+        JLabel logoLabel = new JLabel(new ImageIcon(img));
+        logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 
-        JLabel tituloLabel = new JLabel("Nome do Bazar", SwingConstants.CENTER);
-        tituloLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        //Titulo
+        JLabel tituloLabel = new JLabel("EcoBazar", SwingConstants.CENTER);
+        tituloLabel.setFont(new Font("Arial", Font.BOLD, 30));
 
-        JTextArea descricaoTextArea = new JTextArea(
-                "Transforme seu guarda-roupa e o mundo com o nosso Bazar Solidário!\n\n" +
-                        "Em um momento de reflexão global, convidamos você a fazer parte de uma revolução na\n" +
-                        "moda. Nosso Bazar Solidário é mais que uma troca de roupas: é um movimento em\n" +
-                        "direção a um futuro mais verde e justo.\n\n" +
-                        "Descubra a moda ecológica: valorizamos a beleza da reutilização, a força da doação e a\n" +
-                        "urgência da sustentabilidade. Dê um novo lar àquela peça especial e encontre tesouros\n" +
-                        "únicos, tudo enquanto contribui para um planeta mais saudável e uma comunidade mais\n" +
-                        "forte.\n\n" +
-                        "Participe da economia circular: aqui, seus itens ganham nova vida, evitando o desperdício\n" +
-                        "e inspirando um consumo consciente.\n\n" +
-                        "Junte-se a nós: seja parte da mudança, adote um estilo com propósito e mostre que a\n" +
-                        "moda pode ser uma poderosa ferramenta de transformação social e ambiental.\n\n" +
-                        "Bazar Solidário: Vista essa ideia!");
-        descricaoTextArea.setEditable(false);
-        descricaoTextArea.setLineWrap(true);
-        descricaoTextArea.setWrapStyleWord(true);
+        JLabel subtitulo = new JLabel("ODS 12 - Consumo e Produção Responsáveis.", SwingConstants.CENTER);
+        subtitulo.setFont(new Font("Arial", Font.ITALIC, 16));
 
-        JPanel botoesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
+        JPanel topo = new JPanel(new GridLayout(3,1));
+        topo.setBackground(fundo);
+
+        topo.add(logoLabel);
+        topo.add(tituloLabel);
+        topo.add(subtitulo);
+
+        //dashboard
+        JPanel dashboard = new JPanel(new GridLayout(1,3,15,15));
+
+        dashboard.setBackground(fundo);
+
+        dashboard.add(criarCard("Produtos", "120"));
+        dashboard.add(criarCard("Usúarios", "45"));
+        dashboard.add(criarCard("Produtos", "30"));
+
+
+        //descrição
+        JTextArea descricao = new JTextArea("EcoBazar é uma plataforma de consumo consciente\n" +
+                "que promove reutilização de roupas e produtos,\n" +
+                "reduzindo desperdício e incentivando a economia circular.\n\n" +
+                "Nosso projeto está alinhado ao ODS 12 da ONU:\n" +
+                "Consumo e Produção Responsáveis.");
+
+        descricao.setEditable(false);
+        descricao.setFont(new Font("Arial", Font.PLAIN, 16));
+        descricao.setLineWrap(true);
+        descricao.setWrapStyleWord(true);
+        descricao.setBackground(fundo);
+
+
+        //botões
+        JPanel botoes = new JPanel(new FlowLayout(FlowLayout.CENTER,20,10));
+
+        botoes.setBackground(fundo);
+
         JButton loginButton = new JButton("Login");
+
         JButton cadastrarButton = new JButton("Cadastrar-se");
-        JButton navegarButton = new JButton("Navegar como visitante");
+
+        JButton navegarButton = new JButton("Explorar catálogo");
+
+        JButton sobreButton = new JButton("Sobre");
 
 
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Cria e exibe a TelaLogin
-                TelaLogin telaDeLogin = new TelaLogin();
-                telaDeLogin.setVisible(true);
+                new TelaLogin().setVisible(true);
+                dispose();
             }
         });
 
@@ -58,8 +94,8 @@ public class TelaInicial extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Cria e exibe a TelaCadastro
-                TelaCadastro telaDeCadastro = new TelaCadastro();
-                telaDeCadastro.setVisible(true);
+                new TelaCadastro().setVisible(true);
+                dispose();
             }
         });
 
@@ -68,21 +104,52 @@ public class TelaInicial extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Cria e exibe a TelaCatalogo
-                TelaCatalogo telaDeCatalogo = new TelaCatalogo();
-                telaDeCatalogo.setVisible(true);
+                new TelaCatalogo().setVisible(true);
+                dispose();
             }
         });
 
-        botoesPanel.add(loginButton);
-        botoesPanel.add(cadastrarButton);
-        botoesPanel.add(navegarButton);
+        sobreButton.addActionListener(e -> JOptionPane.showMessageDialog(this,"EcoBazar promove consumo consciente\n" +
+                        "e reutilização de produtos.\n\n" +
+                        "Projeto alinhado ao ODS 12.",
+                "Sobre o Projeto",
+                JOptionPane.INFORMATION_MESSAGE ));
 
-        painelPrincipal.add(tituloLabel, BorderLayout.NORTH);
-        painelPrincipal.add(new JScrollPane(descricaoTextArea), BorderLayout.CENTER);
-        painelPrincipal.add(botoesPanel, BorderLayout.SOUTH);
+        botoes.add(loginButton);
+        botoes.add(cadastrarButton);
+        botoes.add(navegarButton);
+        botoes.add(sobreButton);
+
+        //centro
+        JPanel centro = new JPanel(new BorderLayout(15,15));
+        centro.setBackground(fundo);
+
+        centro.add(dashboard, BorderLayout.NORTH);
+        centro.add(descricao, BorderLayout.CENTER);
+
+        painelPrincipal.add(topo, BorderLayout.NORTH);
+        painelPrincipal.add(centro, BorderLayout.CENTER);
+        painelPrincipal.add(botoes, BorderLayout.SOUTH);
 
         add(painelPrincipal);
         setVisible(true);
+    }
+
+    public JPanel criarCard(String titulo, String valor){
+        JPanel card = new JPanel(new BorderLayout());
+
+        card.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+
+        JLabel t = new JLabel(titulo, SwingConstants.CENTER);
+
+        JLabel v = new JLabel(valor, SwingConstants.CENTER);
+
+        v.setFont(new Font("Arial", Font.BOLD, 22));
+
+        card.add(t, BorderLayout.NORTH);
+        card.add(v, BorderLayout.CENTER);
+
+        return card;
     }
 
     public static void main(String[] args) {

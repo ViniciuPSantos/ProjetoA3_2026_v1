@@ -11,6 +11,7 @@ import java.awt.event.ItemListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class TelaCadastro extends JFrame {
 
@@ -151,12 +152,12 @@ public class TelaCadastro extends JFrame {
                     TelaCadastro.this.dispose();
                     SwingUtilities.invokeLater(() -> new TelaLogin().setVisible(true));
                 } else {
-                    // Mensagem de erro já é mostrada dentro de cadastrarUsuario
+
                 }
             }
         });
         setVisible(true);
-        // Opcional: dar foco inicial ao campo de nome
+
         SwingUtilities.invokeLater(() -> nomeField.requestFocusInWindow());
     }
 
@@ -166,12 +167,18 @@ public class TelaCadastro extends JFrame {
 
         try (Connection conn = dbConnector.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            String senhaHash = BCrypt.hashpw(senha, BCrypt.gensalt(12));
+
+
             pstmt.setString(1, nome);
             pstmt.setString(2, email);
-            pstmt.setString(3, senha); // MUITO INSEGURO! Hashear esta senha!
+            pstmt.setString(3, senhaHash); // MUITO INSEGURO! Hashear esta senha!
             pstmt.setString(4, tipo);
+
             int affectedRows = pstmt.executeUpdate();
             return affectedRows > 0;
+
         } catch (SQLException e) {
             if (e.getErrorCode() == 1062) {
                 JOptionPane.showMessageDialog(this, "Erro ao cadastrar: O email '" + email + "' já está em uso.", "Email Duplicado", JOptionPane.ERROR_MESSAGE);
