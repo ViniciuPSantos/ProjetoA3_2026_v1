@@ -23,6 +23,7 @@ public class TelaLogin extends JFrame {
     private JButton loginButton;
     private JButton cadastrarButton;
     private JCheckBox mostrarSenhaCheckBox;
+    private JButton voltarButton;
 
     // --- Início das Modificações para Bloqueio de Login ---
     private static Map<String, Integer> tentativasLogin = new HashMap<>();
@@ -34,18 +35,29 @@ public class TelaLogin extends JFrame {
     public TelaLogin() {
         setTitle("Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(350, 280); // Aumentei um pouco a altura para acomodar possíveis mensagens
+        setSize(450, 400); // Aumentei um pouco a altura para acomodar possíveis mensagens
         setLocationRelativeTo(null);
-        setLayout(new GridBagLayout());
+        Color fundo = new Color(180, 255, 180, 237);
+        JPanel painelPrincipal = new JPanel(new GridBagLayout());
+        painelPrincipal.setBackground(fundo);
+        setContentPane(painelPrincipal);
+        painelPrincipal.setBorder(BorderFactory.createEmptyBorder(25,25,25,25));
         GridBagConstraints gbc = new GridBagConstraints();
+        JLabel titulo = new JLabel("Login no EcoBazar");
+        titulo.setFont(new Font("Arial", Font.BOLD, 22));
+        titulo.setHorizontalAlignment(SwingConstants.CENTER);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        add(titulo, gbc);
+        gbc.gridwidth = 1;
+
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        getRootPane().setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
         // Linha 0: Email
         gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.WEST;
         add(new JLabel("Email:"), gbc);
 
@@ -57,7 +69,7 @@ public class TelaLogin extends JFrame {
 
         // Linha 1: Senha
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         add(new JLabel("Senha:"), gbc);
 
         gbc.gridx = 1;
@@ -66,10 +78,11 @@ public class TelaLogin extends JFrame {
 
         // Linha 2: Mostrar Senha CheckBox
         gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.EAST;
         gbc.fill = GridBagConstraints.NONE;
         mostrarSenhaCheckBox = new JCheckBox("Mostrar Senha");
+        mostrarSenhaCheckBox.setBackground(fundo);
         mostrarSenhaCheckBox.setFont(new Font("Arial", Font.PLAIN, 10));
         mostrarSenhaCheckBox.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
@@ -86,7 +99,7 @@ public class TelaLogin extends JFrame {
 
         // Linha 3: Botão Login
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         loginButton = new JButton("Login");
@@ -94,9 +107,20 @@ public class TelaLogin extends JFrame {
 
         // Linha 4: Botão Cadastrar
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         cadastrarButton = new JButton("Nao possui uma conta ainda? Cadastrar-se aqui.");
         add(cadastrarButton, gbc);
+
+        //Linha : Botão Voltar
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        voltarButton = new JButton("Voltar");
+        voltarButton.addActionListener(e ->{
+            new TelaInicial().setVisible(true);
+            dispose();
+        });
+        add(voltarButton, gbc);
+
 
         this.getRootPane().setDefaultButton(loginButton);
 
@@ -105,6 +129,23 @@ public class TelaLogin extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String email = emailField.getText().trim().toLowerCase(); // Padronizar para minúsculas
                 String senha = new String(senhaField.getPassword());
+
+                if(email.isEmpty() || senha.isEmpty()){
+                    JOptionPane.showMessageDialog(TelaLogin.this,
+                            "Preecha o email e a senha.",
+                            "Campos obrigatórios",
+                            JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                if(!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")){
+                    JOptionPane.showMessageDialog(
+                            TelaLogin.this,
+                            "Formato de email inválido.",
+                            "Erro",
+                            JOptionPane.WARNING_MESSAGE
+                    );
+                }
 
                 // --- Início da Lógica de Bloqueio ---
                 if (estaBloqueado(email)) {
@@ -129,7 +170,7 @@ public class TelaLogin extends JFrame {
 
                 if (tipoUsuario != null) {
                     limparTentativas(email); // Limpa tentativas após login bem-sucedido
-                    JOptionPane.showMessageDialog(TelaLogin.this, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(TelaLogin.this, "Bem vindo ao EcoBazar!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     TelaLogin.this.dispose();
                     if (tipoUsuario.equals("bazar")) {
                         SwingUtilities.invokeLater(() -> new TelaBazar().setVisible(true));

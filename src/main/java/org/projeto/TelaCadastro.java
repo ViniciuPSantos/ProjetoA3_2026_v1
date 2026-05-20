@@ -18,6 +18,7 @@ public class TelaCadastro extends JFrame {
     private JTextField nomeField;
     private JTextField emailField;
     private JPasswordField senhaField;
+    private JPasswordField confirmarSenhaField;
     private JComboBox<String> tipoUsuarioComboBox;
     private JButton cadastrarButton;
     private JButton loginButton;
@@ -28,17 +29,43 @@ public class TelaCadastro extends JFrame {
     public TelaCadastro() {
         setTitle("Cadastro de Usuário");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(450, 350);
-        setLocationRelativeTo(null);
-        setLayout(new GridBagLayout());
+
+        Color fundo = new Color(180, 255, 180);
+
+        JPanel painelPrincipal = new JPanel(new GridBagLayout());
+        painelPrincipal.setBackground(fundo);
+
+        setContentPane(painelPrincipal);
+        painelPrincipal.setBorder(
+                BorderFactory.createEmptyBorder(25, 25, 25, 25)
+        );
+
         GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(8,8,8,8);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        pack();
+        setSize(450,400);
+        setLocationRelativeTo(null);
+
+        JLabel titulo = new JLabel("Cadastro no EcoBazar");
+        titulo.setFont(new Font("Arial", Font.BOLD, 22));
+        titulo.setHorizontalAlignment(SwingConstants.CENTER);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        add(titulo, gbc);
+
+        gbc.gridwidth =1;
+
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        getRootPane().setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+
 
         // Linha 0: Nome
-        gbc.gridx = 0; gbc.gridy = 0; gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridx = 0; gbc.gridy = 1; gbc.anchor = GridBagConstraints.WEST;
         add(new JLabel("Nome Completo:"), gbc);
         gbc.gridx = 1; gbc.weightx = 1.0;
         nomeField = new JTextField(20);
@@ -46,33 +73,44 @@ public class TelaCadastro extends JFrame {
         gbc.weightx = 0;
 
         // Linha 1: Email
-        gbc.gridx = 0; gbc.gridy = 1;
+        gbc.gridx = 0; gbc.gridy = 2;
         add(new JLabel("Email:"), gbc);
         gbc.gridx = 1;
         emailField = new JTextField(20);
         add(emailField, gbc);
 
         // Linha 2: Senha
-        gbc.gridx = 0; gbc.gridy = 2;
+        gbc.gridx = 0; gbc.gridy = 3;
         add(new JLabel("Senha:"), gbc);
         gbc.gridx = 1;
         senhaField = new JPasswordField(20);
         add(senhaField, gbc);
 
+        //Linha : confirmar senha
+        gbc.gridx = 0; gbc.gridy = 4;
+        add(new JLabel("Confirmar senha:"), gbc);
+        gbc.gridx = 1;
+        confirmarSenhaField = new JPasswordField(20);
+        add(confirmarSenhaField, gbc);
+
         // Linha 3: Mostrar Senha CheckBox
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy = 5;
         gbc.anchor = GridBagConstraints.EAST;
         gbc.fill = GridBagConstraints.NONE;
         mostrarSenhaCheckBox = new JCheckBox("Mostrar Senha");
+        mostrarSenhaCheckBox.setBackground(fundo);
         mostrarSenhaCheckBox.setFont(new Font("Arial", Font.PLAIN, 10));
-        mostrarSenhaCheckBox.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    senhaField.setEchoChar((char) 0);
-                } else {
-                    senhaField.setEchoChar((Character) UIManager.get("PasswordField.echoChar"));
-                }
+        mostrarSenhaCheckBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                senhaField.setEchoChar((char) 0);
+                confirmarSenhaField.setEchoChar((char) 0);
+            } else {
+                char echo =
+                        ((Character) UIManager.get("PasswordField.echoChar"));
+
+                senhaField.setEchoChar(echo);
+                confirmarSenhaField.setEchoChar(echo);
             }
         });
         add(mostrarSenhaCheckBox, gbc);
@@ -80,22 +118,23 @@ public class TelaCadastro extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
 
         // Linha 4: Tipo de Usuário
-        gbc.gridx = 0; gbc.gridy = 4;
+        gbc.gridx = 0; gbc.gridy = 6;
         add(new JLabel("Tipo de Usuário:"), gbc);
         gbc.gridx = 1;
         String[] tipos = {"Cliente", "Bazar"};
         tipoUsuarioComboBox = new JComboBox<>(tipos);
+        tipoUsuarioComboBox.setBackground(fundo);
         add(tipoUsuarioComboBox, gbc);
 
         // Linha 5: Botão Cadastrar
-        gbc.gridx = 0; gbc.gridy = 5;
+        gbc.gridx = 0; gbc.gridy = 7;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         cadastrarButton = new JButton("Cadastrar");
         add(cadastrarButton, gbc);
 
         // Linha 6 : Botão Já tem uma conta
-        gbc.gridx = 0; gbc.gridy = 6;
+        gbc.gridx = 0; gbc.gridy = 8;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         loginButton = new JButton("Já possui uma conta? Faça login aqui.");
@@ -116,12 +155,30 @@ public class TelaCadastro extends JFrame {
                 String nome = nomeField.getText().trim();
                 String email = emailField.getText().trim();
                 String senha = new String(senhaField.getPassword());
+                String confirmar = new String(confirmarSenhaField.getPassword());
                 String tipoSelecionado = (String) tipoUsuarioComboBox.getSelectedItem();
 
                 if (nome.isEmpty() || email.isEmpty() || senha.isEmpty()) {
                     JOptionPane.showMessageDialog(TelaCadastro.this, "Por favor, preencha todos os campos.", "Campos Obrigatórios", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
+
+                if(!senha.equals(confirmar)){
+                    JOptionPane.showMessageDialog(TelaCadastro.this,
+                            "As senhas não coincidem.",
+                            "Erro",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if(senha.length() < 6){
+                    JOptionPane.showMessageDialog(TelaCadastro.this,
+                            "A senha deve ter pelo menos 6 caracteres.",
+                            "Senha fraca",
+                            JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
                 if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
                     JOptionPane.showMessageDialog(TelaCadastro.this, "Por favor, insira um formato de email válido.", "Email Inválido", JOptionPane.WARNING_MESSAGE);
                     emailField.requestFocusInWindow();
@@ -129,7 +186,7 @@ public class TelaCadastro extends JFrame {
                 }
 
                 String tipoParaBanco;
-                if ("bazar".equals(tipoSelecionado)) {
+                if ("Bazar".equals(tipoSelecionado)) {
                     JPasswordField pf = new JPasswordField();
                     int okCxl = JOptionPane.showConfirmDialog(null, pf, "Senha de Administrador:", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                     if (okCxl == JOptionPane.OK_OPTION) {
@@ -173,7 +230,7 @@ public class TelaCadastro extends JFrame {
 
             pstmt.setString(1, nome);
             pstmt.setString(2, email);
-            pstmt.setString(3, senhaHash); // MUITO INSEGURO! Hashear esta senha!
+            pstmt.setString(3, senhaHash);
             pstmt.setString(4, tipo);
 
             int affectedRows = pstmt.executeUpdate();

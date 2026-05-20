@@ -50,15 +50,25 @@ public class TelaAdicionarProduto extends JFrame {
     public TelaAdicionarProduto() {
         setTitle("Adicionar Novo Produto");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(700, 650);
+        setSize(750, 700);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout(10, 10));
+
+        Color fundo = new Color(180, 255, 180);
+
+        JPanel painelPrincipal = new JPanel(new BorderLayout(15, 15));
+        painelPrincipal.setBackground(fundo);
+        painelPrincipal.setBorder(new EmptyBorder(20, 20, 20, 20));
+
+        setContentPane(painelPrincipal);
         imagePaths = new ArrayList<>(3);
         for (int i = 0; i < 3; i++) imagePaths.add(null);
         statusLabelsImagens = new JLabel[3];
 
-        JPanel imageSelectionPanel = new JPanel(new GridLayout(1, 3, 10, 0));
-        imageSelectionPanel.setBorder(BorderFactory.createTitledBorder("Imagens do Produto"));
+        JPanel imageSelectionPanel = new JPanel(new GridLayout(1, 3, 15, 0));
+        imageSelectionPanel.setBackground(fundo);
+        imageSelectionPanel.setBorder(
+                BorderFactory.createTitledBorder("Imagens do Produto")
+        );
         adicionarImagem1Button = new JButton("Selecionar Imagem 1");
         adicionarImagem2Button = new JButton("Selecionar Imagem 2");
         adicionarImagem3Button = new JButton("Selecionar Imagem 3");
@@ -68,9 +78,10 @@ public class TelaAdicionarProduto extends JFrame {
         add(imageSelectionPanel, BorderLayout.NORTH);
 
         JPanel inputPanel = new JPanel(new GridBagLayout());
-        inputPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        inputPanel.setBackground(fundo);
+        inputPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(10,10,10,10);
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         int yPos = 0;
@@ -92,8 +103,10 @@ public class TelaAdicionarProduto extends JFrame {
 
         cardLayoutTamanhos = new CardLayout();
         tamanhosContainerPanel = new JPanel(cardLayoutTamanhos);
+        tamanhosContainerPanel.setBackground(fundo);
 
         JPanel painelRoupas = new JPanel(new GridBagLayout());
+        painelRoupas.setBackground(fundo);
         GridBagConstraints gbcRoupa = new GridBagConstraints();
         gbcRoupa.insets = new Insets(2,2,2,2); gbcRoupa.fill = GridBagConstraints.HORIZONTAL; gbcRoupa.anchor = GridBagConstraints.WEST;
         gbcRoupa.gridx = 0; gbcRoupa.gridy = 0; painelRoupas.add(new JLabel("Qtd. (P):"), gbcRoupa);
@@ -105,6 +118,7 @@ public class TelaAdicionarProduto extends JFrame {
         tamanhosContainerPanel.add(painelRoupas, ROUPA_PANEL);
 
         JPanel painelTenis = new JPanel(new GridBagLayout());
+        painelTenis.setBackground(fundo);
         GridBagConstraints gbcTenis = new GridBagConstraints();
         gbcTenis.insets = new Insets(2,2,2,2); gbcTenis.fill = GridBagConstraints.HORIZONTAL; gbcTenis.anchor = GridBagConstraints.WEST;
         gbcTenis.gridx = 0; gbcTenis.gridy = 0; painelTenis.add(new JLabel("Qtd. (38):"), gbcTenis);
@@ -147,8 +161,10 @@ public class TelaAdicionarProduto extends JFrame {
         add(new JScrollPane(inputPanel), BorderLayout.CENTER);
 
         salvarProdutoButton = new JButton("Salvar Produto");
-        salvarProdutoButton.setFont(new Font("Arial", Font.BOLD, 14));
+        salvarProdutoButton.setFont(new Font("Arial", Font.BOLD, 16));
+        salvarProdutoButton.setPreferredSize(new Dimension(180, 45));
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        bottomPanel.setBackground(fundo);
         bottomPanel.setBorder(new EmptyBorder(10,0,10,0));
         bottomPanel.add(salvarProdutoButton);
         add(bottomPanel, BorderLayout.SOUTH);
@@ -170,6 +186,7 @@ public class TelaAdicionarProduto extends JFrame {
     private JPanel criarPainelSelecaoImagem(JButton botao, int index) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBackground(new Color(180, 255, 180));
         botao.setAlignmentX(Component.CENTER_ALIGNMENT);
         statusLabelsImagens[index] = new JLabel("(Nenhuma imagem selecionada)");
         statusLabelsImagens[index].setAlignmentX(Component.CENTER_ALIGNMENT);
