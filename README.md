@@ -2,16 +2,16 @@
 
 ## 📌 Sobre o projeto
 
-O **Projeto A3 2026** é um sistema desktop desenvolvido em Java para gerenciamento de uma loja de roupas, permitindo o controle de produtos, estoque, usuários e vendas de forma prática e intuitiva.
+O **Projeto A3 2026** é um sistema desktop desenvolvido em Java para ajudar na conexão entre bazares e usuários, permitindo o controle de produtos, estoques e vendas de forma prática e intuitiva.
 
-Este projeto foi desenvolvido como atividade acadêmica da disciplina **A3**, aplicando conceitos fundamentais de engenharia de software e desenvolvimento desktop.
+Este projeto foi desenvolvido como atividade acadêmica da disciplina **Algoritimos e programação**, aplicando conceitos fundamentais de engenharia de software e desenvolvimento desktop.
 
 ---
 
 # 🚀 Funcionalidades
 
 ## 👤 Gerenciamento de Usuários
-- Cadastro de novos usuários
+- Cadastro de novos usuários e bazares
 - Login com autenticação segura
 - Criptografia de senhas utilizando BCrypt
 - Controle de acesso ao sistema
