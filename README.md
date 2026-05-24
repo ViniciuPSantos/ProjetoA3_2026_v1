@@ -131,42 +131,42 @@ Abra em sua IDE (preferencialmente IntelliJ) e execute a classe principal do sis
 - Controle de Estoque
 
 ## Tela Inicial
-![Tela Inicial] (prints/TelaInicial.png)
+![Tela Inicial](prints/TelaInicial.png)
 
 ---
 
 ## Tela de Cadastro
-![Tela Cadastro] (prints/TelaCadastro.png)
+![Tela Cadastro](prints/TelaCadastro.png)
 
 ---
 
 ## Tela de Login
-![Tela Login] (prints/TelaLogin.png)
+![Tela Login](prints/TelaLogin.png)
 
 ---
 
 ## Tela de Catalogo
-![Tela Catalogo] (prints/TelaCatalogo.png)
+![Tela Catalogo](prints/TelaCatalogo.png)
 
 ---
 
 ## Tela do Bazar
-![Tela Bazar] (prints/TelaBazar.png)
+![Tela Bazar](prints/TelaBazar.png)
 
 ---
 
 ## Cadastro de Produtos
-![Tela AdicionarProduto] (prints/TelaAdicionarProduto.png)
+![Tela AdicionarProduto](prints/TelaAdicionarProduto.png)
 
 ---
 
 ## Edição de Produtos
-![Tela EditarProduto] (prints/TelaEditarProduto.png)
+![Tela EditarProduto](prints/TelaEditarProduto.png)
 
 ---
 
 ## Carrinho de Compras
-![Tela Carrinho] (prints/TelaCarrinho.png)
+![Tela Carrinho](prints/TelaCarrinho.png)
 
 # 🎯 Objetivo Acadêmico
 
