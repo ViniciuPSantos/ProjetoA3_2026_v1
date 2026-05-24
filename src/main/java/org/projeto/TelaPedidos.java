@@ -1,6 +1,5 @@
 package org.projeto;
 
-
 import org.projeto.DBConnector;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -16,18 +15,85 @@ public class TelaPedidos extends JFrame {
     private DefaultTableModel tableModel;
 
     public TelaPedidos() {
+        configurarJanela();
+        criarTabela();
+        carregarPedidosDoBanco();
+        setVisible(true);
+    }
+
+    private void configurarJanela() {
         setTitle("Pedidos");
-        setSize(800, 600);
+        setSize(1000, 650);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLayout(new BorderLayout());
+
+        Color fundo = new Color(180, 255, 180);
+
+        JPanel painelPrincipal = new JPanel(
+                new BorderLayout(15, 15)
+        );
+
+        painelPrincipal.setBackground(fundo);
+
+        painelPrincipal.setBorder(
+                BorderFactory.createEmptyBorder(
+                        25, 25, 25, 25
+                )
+        );
+
+        setContentPane(painelPrincipal);
+
+        JLabel titulo = new JLabel("Pedidos - EcoBazar");
+        titulo.setFont(
+                new Font("Arial", Font.BOLD, 24)
+        );
+
+        titulo.setHorizontalAlignment(
+                SwingConstants.CENTER
+        );
+
+        painelPrincipal.add(
+                titulo,
+                BorderLayout.NORTH
+        );
+    }
+
+    private void criarTabela() {
+
+        Color fundo = new Color(180, 255, 180);
 
         tableModel = new DefaultTableModel();
-        pedidosTable = new JTable(tableModel);
-        JScrollPane scrollPane = new JScrollPane(pedidosTable);
-        add(scrollPane, BorderLayout.CENTER);
 
-        // Adicionar as colunas da tabela
+        pedidosTable = new JTable(tableModel);
+
+        pedidosTable.setRowHeight(28);
+
+        pedidosTable.setFont(
+                new Font("Arial", Font.PLAIN, 13)
+        );
+
+        pedidosTable.getTableHeader().setFont(
+                new Font("Arial", Font.BOLD, 13)
+        );
+
+        JScrollPane scrollPane =
+                new JScrollPane(pedidosTable);
+
+        JPanel tabelaPanel =
+                new JPanel(new BorderLayout());
+
+        tabelaPanel.setBackground(fundo);
+
+        tabelaPanel.setBorder(
+                BorderFactory.createTitledBorder(
+                        "Lista de Pedidos"
+                )
+        );
+
+        tabelaPanel.add(scrollPane);
+
+        add(tabelaPanel, BorderLayout.CENTER);
+
         tableModel.addColumn("ID Pedido");
         tableModel.addColumn("ID Usuário");
         tableModel.addColumn("Data Pedido");
@@ -35,35 +101,57 @@ public class TelaPedidos extends JFrame {
         tableModel.addColumn("Endereço Entrega");
         tableModel.addColumn("Forma Pagamento");
         tableModel.addColumn("Total");
-
-        carregarPedidosDoBanco();
-
-        setVisible(true);
     }
 
     private void carregarPedidosDoBanco() {
-        String sql = "SELECT id, usuario_id, data_pedido, status, endereco_entrega, forma_pagamento, total FROM pedidos";
-        DBConnector dbConnector = new DBConnector();
+        String sql =
+                "SELECT id, usuario_id, data_pedido, status, endereco_entrega, forma_pagamento, total FROM pedidos";
 
-        try (Connection conn = dbConnector.conectar();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+        DBConnector dbConnector =
+                new DBConnector();
+
+        try (
+                Connection conn =
+                        dbConnector.conectar();
+
+                PreparedStatement pstmt =
+                        conn.prepareStatement(sql);
+
+                ResultSet rs =
+                        pstmt.executeQuery()
+        ) {
 
             tableModel.setRowCount(0);
 
             while (rs.next()) {
-                int id = rs.getInt("id");
-                int usuarioId = rs.getInt("usuario_id");
-                java.sql.Timestamp dataPedido = rs.getTimestamp("data_pedido");
-                String status = rs.getString("status");
-                String enderecoEntrega = rs.getString("endereco_entrega");
-                String formaPagamento = rs.getString("forma_pagamento");
-                double total = rs.getDouble("total");
-                tableModel.addRow(new Object[]{id, usuarioId, dataPedido, status, enderecoEntrega, formaPagamento, total});
+                tableModel.addRow(
+                        new Object[]{
+                                rs.getInt("id"),
+                                rs.getInt("usuario_id"),
+                                rs.getTimestamp("data_pedido"),
+                                rs.getString("status"),
+                                rs.getString("endereco_entrega"),
+                                rs.getString("forma_pagamento"),
+                                rs.getDouble("total")
+                        }
+                );
             }
+
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Erro ao carregar pedidos: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Erro ao carregar pedidos: "
+                            + e.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE
+            );
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(
+                TelaPedidos::new
+        );
     }
 }
