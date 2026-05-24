@@ -130,9 +130,43 @@ Abra em sua IDE (preferencialmente IntelliJ) e execute a classe principal do sis
 - Seleção de Tamanho
 - Controle de Estoque
 
-> *(adicione prints futuramente para melhorar a apresentação do repositório)*
+## Tela Inicial
+![Tela Inicial] (prints/TelaInicial.png)
 
 ---
+
+## Tela de Cadastro
+![Tela Cadastro] (prints/TelaCadastro.png)
+
+---
+
+## Tela de Login
+![Tela Login] (prints/TelaLogin.png)
+
+---
+
+## Tela de Catalogo
+![Tela Catalogo] (prints/TelaCatalogo.png)
+
+---
+
+## Tela do Bazar
+![Tela Bazar] (prints/TelaBazar.png)
+
+---
+
+## Cadastro de Produtos
+![Tela AdicionarProduto] (prints/TelaAdicionarProduto.png)
+
+---
+
+## Edição de Produtos
+![Tela EditarProduto] (prints/TelaEditarProduto.png)
+
+---
+
+## Carrinho de Compras
+![Tela Carrinho] (prints/TelaCarrinho.png)
 
 # 🎯 Objetivo Acadêmico
 
