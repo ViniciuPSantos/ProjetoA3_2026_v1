@@ -58,7 +58,7 @@ create table if not exists estoque_variacoes(
 );
 
 
-CREATE USER 'vinicius'@'localhost' IDENTIFIED BY 'faculdadeprojetoa3';
+CREATE USER 'vinicius'@'localhost' IDENTIFIED BY 'sua_senha_aqui';
 GRANT ALL PRIVILEGES ON meubanco.* TO 'vinicius'@'localhost';
 
 
