@@ -184,7 +184,7 @@ O objetivo deste projeto é aplicar conhecimentos de:
 
 **Vinícius de Paula Santos**
 
-GitHub: :contentReference[oaicite:0]{index=0}
+GitHub: [ViniciuPSantos](https://github.com/ViniciuPSantos)
 
 ---
 
